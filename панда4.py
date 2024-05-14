@@ -48,27 +48,31 @@ weather_mar2012 = weather_mar2012.dropna(axis=1, how='any')
 # удаляем столбцы 'Year', 'Month', 'Day', 'Time'
 weather_mar2012 = weather_mar2012.drop(['Year', 'Month', 'Day', 'Time'], axis=1)
 
-plt.show()
-print(weather_mar2012[:5])
+
 
 # # Выводим дневной график температуры
-# temperatures = weather_mar2012[['Temp (C)']].copy()
-# temperatures.loc[:, 'Hour'] = weather_mar2012.index.hour
-# temperatures.groupby('Hour').aggregate('median').plot()
-#
-# #
-# def download_weather_month(year, month):
-#     url = url_template.format(year=year, month=month)
-#     weather_data = pd.read_csv(url, index_col='Date/Time (LST)', parse_dates=True, encoding='utf-8-sig')
-#     weather_data = weather_data.dropna(axis=1)
-#     weather_data.columns = [col.replace('\xb0', '') for col in weather_data.columns]
-#     weather_data = weather_data.drop(['Year', 'Day', 'Month', 'Time (LST)', 'Longitude (x)',
-#                                       'Latitude (y)', 'Station Name', 'Climate ID', ], axis=1)
-#     return weather_data
+temperatures = weather_mar2012[['Temp (C)']].copy()
+temperatures.loc[:, 'Hour'] = weather_mar2012.index.hour
+temperatures.groupby('Hour').aggregate('median').plot()
+
+# print(weather_mar2012[:5])
+# plt.show()
+
+def download_weather_month(year, month):
+    url = url_template.format(year=year, month=month)
+    weather_data = pd.read_csv(url, index_col='Date/Time (LST)', parse_dates=True, encoding='utf-8-sig')
+    weather_data = weather_data.dropna(axis=1)
+    weather_data.columns = [col.replace('\xb0', '') for col in weather_data.columns]
+    weather_data = weather_data.drop(['Year', 'Day', 'Month', 'Time (LST)', 'Longitude (x)',
+                                      'Latitude (y)', 'Station Name', 'Climate ID', ], axis=1)
+    return weather_data
 
 
-# data_by_month = [download_weather_month(2012, i) for i in range(1, 13)]
-# weather_2012 = pd.concat(data_by_month)
+data_by_month = [download_weather_month(2012, i) for i in range(1, 13)]
+weather_2012 = pd.concat(data_by_month)
+
+print(data_by_month)
+plt.show()
 
 # address = r'C:\Users\niksi\PycharmProjects\pythonProject14\weather_2012.csv'
 # weather_2012.to_csv(address)
