@@ -11,7 +11,9 @@ weather_2012 = pd.read_csv(r'C:\Users\niksi\PycharmProjects\pythonProject14\weat
                            parse_dates=True, index_col='Date/Time (LST)')
 # print(weather_2012[:5])
 
+# Выборка колонки 'Weather' из датафрейма
 weather_description = weather_2012['Weather']
+# Создание булевой серии, где True, если в описании погоды есть слово 'Snow'
 is_snowing = weather_description.str.contains('Snow')
 
 # print(is_snowing[:5])
@@ -23,6 +25,7 @@ is_snowing2.plot()
 # plt.show()
 weather_2012['Temp (C)'].resample('ME').median().plot(kind='bar')
 # plt.show()
+# Группировка данных по температуре по месяцам и расчет медианы, построение столбчатого графика
 is_snowing.astype(int).resample('ME').mean()
 # print(is_snowing.astype(int)[:10])
 
@@ -34,14 +37,18 @@ is_snowing.astype(int).resample('ME').mean()
 # # Отображение графика
 # plt.show()
 
+# Группировка и расчет медианы температуры по месяцам
 temperature = weather_2012['Temp (C)'].resample('ME').median()
+# Повторное создание серии is_snowing для учета обновлений
 is_snowing = weather_2012['Weather'].str.contains('Snow')
+# Группировка и расчет среднего количества снегопадов по месяцам
 snowiness = is_snowing.astype(int).resample('ME').mean()
 
 # Имя столбца
 temperature.name = "Temperature"
 snowiness.name = "Snowiness"
 
+# Объединение двух серий в один датафрейм по оси колонок
 stats = pd.concat([temperature, snowiness], axis=1)
 # print(stats)
 # stats.plot(kind='bar')

@@ -21,8 +21,8 @@ requests = pd.read_csv(r'C:\Users\niksi\PycharmProjects\pythonProject14\Date\311
 что вы хотите избежать автоматического преобразования типов данных в будущем.
 Это может быть полезно, если вы хотите быть уверены в том,
 что ваши данные не потеряют точности или информации из-за изменений в pandas.'''
-
 pd.set_option('future.no_silent_downcasting', True)
+
 rows_with_dashes = requests['Incident Zip'].str.contains('-').fillna(False)
 # print(len(requests[rows_with_dashes]))
 # print(requests[rows_with_dashes]['Incident Zip'])
